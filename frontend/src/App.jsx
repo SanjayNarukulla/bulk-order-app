@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,6 +15,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const [role, setRole] = useState(localStorage.getItem("role") || "");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+
+  // Triggered when role or token is updated
+  useEffect(() => {
+    setRole(localStorage.getItem("role") || "");
+    setToken(localStorage.getItem("token") || "");
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
