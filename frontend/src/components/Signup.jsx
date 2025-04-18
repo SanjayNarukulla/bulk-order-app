@@ -12,7 +12,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/signup`, {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/signup`, {
         name,
         email,
         password,
