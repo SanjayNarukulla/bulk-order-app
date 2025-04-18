@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const pool = require("../db"); // your postgres pool
 const SECRET_KEY = process.env.JWT_SECRET || "your-secret-key";
@@ -30,11 +30,8 @@ exports.signup = async (req, res) => {
   }
 };
 
-
-
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
-
 
   try {
     // 1. Admin login check
