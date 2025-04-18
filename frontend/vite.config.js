@@ -8,6 +8,13 @@ export default defineConfig({
     outDir: "dist",
   },
   server: {
-    historyApiFallback: true, // allows proper routing in dev
+    // For local dev fallback (already correct)
+    historyApiFallback: true,
+  },
+  // ⬇️ This part helps Vite handle SPA routes in production builds (optional but safe)
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
   },
 });
