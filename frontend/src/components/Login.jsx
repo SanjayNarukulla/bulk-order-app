@@ -5,25 +5,26 @@ import { useNavigate, Link } from "react-router-dom";
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // loading state
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/signin`,
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
       const { token, role } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
-      onLogin(role,token);
+      onLogin(role, token);
       navigate(role === "admin" ? "/admin" : "/buyer");
     } catch (err) {
       alert(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,9 +50,14 @@ const Login = ({ onLogin }) => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className={`w-full text-white p-2 rounded ${
+            loading
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
       <div className="mt-4 text-center">

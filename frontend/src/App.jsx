@@ -16,17 +16,24 @@ function App() {
   const [role, setRole] = useState(localStorage.getItem("role") || "");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
-  // Triggered when role or token is updated
+  // Ensure role & token are set when localStorage updates (optional safeguard)
   useEffect(() => {
-    setRole(localStorage.getItem("role") || "");
-    setToken(localStorage.getItem("token") || "");
+    const storedRole = localStorage.getItem("role") || "";
+    const storedToken = localStorage.getItem("token") || "";
+    if (storedRole !== role) setRole(storedRole);
+    if (storedToken !== token) setToken(storedToken);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    setToken(null);
-    setRole(null);
+    setToken("");
+    setRole("");
+  };
+
+  const handleLogin = (userRole, userToken) => {
+    setRole(userRole);
+    setToken(userToken);
   };
 
   return (
@@ -47,7 +54,6 @@ function App() {
       )}
 
       <Routes>
-        {/* Only show Login page if not logged in */}
         <Route path="/signup" element={<Signup />} />
         <Route
           path="/login"
@@ -55,11 +61,10 @@ function App() {
             token ? (
               <Navigate to={role === "admin" ? "/admin" : "/buyer"} />
             ) : (
-              <Login onLogin={setRole} />
+              <Login onLogin={handleLogin} />
             )
           }
         />
-        {/* Protected Routes */}
         <Route
           path="/buyer"
           element={
@@ -76,7 +81,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* Redirect to login if route doesn't match */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

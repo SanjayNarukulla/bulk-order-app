@@ -10,7 +10,7 @@ const orderRoutes = require("./routes/orders");
 const app = express();
 
 const corsOptions = {
-  origin: "https://bulk-order-app-1.onrender.com", // Allow your frontend domain
+  origin: ["https://bulk-order-app-1.onrender.com","http://localhost:5173"], // Allow your frontend domain
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
 };
