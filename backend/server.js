@@ -35,10 +35,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Optional: Allow all origins (temporary debugging only - remove in prod)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
+
 
 // Middlewares
 app.use(bodyParser.json());
